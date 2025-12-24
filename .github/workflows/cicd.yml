@@ -1,0 +1,19 @@
+name: Test Dev/Prod Environments
+
+on:
+  push:
+    branches: [dev, prod]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # Branch → Environment mapping
+    environment:
+      name: ${{ github.ref_name }}
+
+    steps:
+      - name: Echo secrets (masked)
+        run: |
+          echo "App=${{ secrets.APP_NAME }}"
+          echo "Region=${{ secrets.AWS_REGION }}"
